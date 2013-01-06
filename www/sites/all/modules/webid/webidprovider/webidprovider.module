@@ -73,14 +73,15 @@ function webidprovider_admin_settings($form) {
   $form['webidprovider_certgen_service'] = array(
     '#type' => 'textfield',
     '#title' => t('WebID certificate generator service'),
-    '#default_value' => WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT,
+    '#default_value' => variable_get('webidprovider_certgen_service', WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT),
     '#description' => t('Indicate the third party service that users will use to generate a certificate which will be stored in their browser.'),
+    '#required' => TRUE,
   );
 
   $form['webidprovider_publish_email'] = array(
     '#type' => 'checkbox',
     '#title' => t('Publish email address in user profiles'),
-    '#default_value' => WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT,
+    '#default_value' => variable_get('webidprovider_publish_email', FALSE),
     '#description' => t('Checking this box will make user\'s email available in their WebID profile, which will be used when registering on websites using WebID.'),
   );
 
