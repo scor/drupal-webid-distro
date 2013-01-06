@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the webidprovider module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function webidprovider_install() {
+  // Create WebID public key field on user profiles.
+  field_info_cache_clear();
+  $field = array(
+    'field_name' => 'field_webidprovider_keys',
+    'type' => 'rsapublickey',
+    'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+  );
+  field_create_field($field);
+
+  $instance = array(
+    'field_name' => 'field_webidprovider_keys',
+    'entity_type' => 'user',
+    'label' => 'WebID public keys',
+    'bundle' => 'user',
+    'description' => t('Paste here the modulus and exponent of your WebID certificate(s).'),
+    'widget' => array(
+      'type' => 'rsapublickey',
+      'weight' => 10,
+    ),
+    'display' => array(
+      'default' => array(
+        'type' => 'rsapublickey',
+        'weight' => 10,
+      ),
+    ),
+  );
+  field_create_instance($instance);
+
+  // Enable default permissions for access user profiles, they need to be public
+  // for the WebID protocol to work.
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access user profiles'));
+  drupal_set_message('Note that the WebID provider module requires the user profiles to be public. The permissions have been updated accordingly.', 'warning');
+}

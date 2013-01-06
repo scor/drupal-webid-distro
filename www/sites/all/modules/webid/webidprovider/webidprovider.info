@@ -1,0 +1,6 @@
+name = WebID provider
+description = Allows users to use their profile as a WebID profile embedded in an X509 certificate.
+package = WebID
+version = VERSION
+core = 7.x
+dependencies[] = rsapublickey

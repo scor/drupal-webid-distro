@@ -1,0 +1,6 @@
+name = RSA Public Key field (WebID)
+description = Defines a field type for storing RSA Public Keys used in WebID.
+package = WebID
+version = VERSION
+core = 7.x
+files[] = rsapublickey.test

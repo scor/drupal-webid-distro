@@ -1,0 +1,6 @@
+name = WebID Authentication
+description = "Allows users to log into your site using WebID."
+package = WebID
+core = 7.x
+dependencies[] = libraries
+configure = admin/config/people/webidauth

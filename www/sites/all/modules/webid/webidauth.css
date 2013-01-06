@@ -1,0 +1,50 @@
+
+#edit-webidauth-identifier {
+  background-image: url("FoafLogo.png");
+  background-position: left 50%; /* LTR */
+  background-repeat: no-repeat;
+  padding-left: 30px; /* LTR */
+}
+div.form-item-webidauth-identifier {
+  display: block;
+}
+html.js #user-login-form div.form-item-webidauth-identifier,
+html.js #user-login div.form-item-webidauth-identifier {
+  display: none;
+}
+#user-login-form ul {
+  margin-top: 0;
+}
+#user-login ul {
+  margin: 0 0 5px;
+}
+#user-login ul li {
+  margin: 0;
+}
+#user-login-form .webidauth-links {
+  padding-bottom: 0;
+}
+#user-login .webidauth-links {
+  padding-left: 0; /* LTR */
+}
+#user-login-form .webidauth-links li,
+#user-login .webidauth-links li {
+  display: none;
+  list-style: none;
+}
+html.js #user-login-form li.webidauth-link,
+html.js #user-login li.webidauth-link {
+  display: block;
+  margin-left: 0; /* LTR */
+}
+#user-login-form li.webidauth-link a,
+#user-login li.webidauth-link a {
+  background-image: url("FoafLogo.png");
+  background-position: left top; /* LTR */
+  background-repeat: no-repeat;
+    background-size:contain;
+  padding: 0 0 0 2.0em; /* LTR */
+}
+#foaf_thumbnail{
+ 	height:100px;
+}

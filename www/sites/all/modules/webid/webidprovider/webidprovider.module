@@ -1,0 +1,147 @@
+<?php
+
+/**
+ * @file
+ * Enables users to use their profile as WebID profile.
+ */
+
+/**
+ * Comment is awaiting approval.
+ */
+define('WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT', 'https://my-profile.eu/new/certgen.php');
+
+
+/**
+ * Implements hook_help().
+ */
+function webidprovider_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#webidprovider':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The WebID provider module allows users to transform their Drupal user profile into a <a href="@webid">WebID profile</a>. They can generate a certificate which will be stored in their web browser, and they can use this certificate to authenticate on other sites which support the WebID protocol.', array('@webid' => 'http://webid.info/')) . '</p>';
+      $output .= '<p>' . t('At the moment the WebID provider module for Drupal isn\'t able to generate certificates itself, and it relies on a third party certificate generator which can set customized in the <a href="@webidprovider-settings">WebID provider settings</a>.', array('@webidprovider-settings' => url('admin/config/people/webidprovider'))) . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function webidprovider_menu() {
+  $items['user/%user/webidprovider'] = array(
+    'title' => 'WebID provider',
+    'page callback' => 'webidprovider_certgen_page',
+    'page arguments' => array(1),
+    'access callback' => 'user_edit_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/people/webidprovider'] = array(
+    'title' => 'WebID provider settings',
+    'description' => 'Configure how users can use their profile as WebID profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('webidprovider_admin_settings'),
+    'access arguments' => array('configure webidprovider'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function webidprovider_admin_paths() {
+  return array('user/*/webidprovider' => TRUE);
+}
+
+/**
+ * Implements hook_permission().
+ */
+function webidprovider_permission() {
+  return array(
+    'configure webidprovider' => array(
+      'title' => t('Administer WebID provider settings'),
+    ),
+  );
+}
+
+/**
+ * Form constructor for the WebID provider settings page.
+ */
+function webidprovider_admin_settings($form) {
+  $form['webidprovider_certgen_service'] = array(
+    '#type' => 'textfield',
+    '#title' => t('WebID certificate generator service'),
+    '#default_value' => WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT,
+    '#description' => t('Indicate the third party service that users will use to generate a certificate which will be stored in their browser.'),
+  );
+
+  $form['webidprovider_publish_email'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Publish email address in user profiles'),
+    '#default_value' => WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT,
+    '#description' => t('Checking this box will make user\'s email available in their WebID profile, which will be used when registering on websites using WebID.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Page builder for the certificate generator link.
+ */
+function webidprovider_certgen_page($account) {
+  $account_uri = entity_uri('user', $account);
+  $account_webid_uri = url($account_uri['path'], array_merge($account_uri['options'], array('fragment' => 'me', 'absolute' => TRUE)));
+  $certgen_uri = variable_get('webidprovider_certgen_service', WEBIDPROVIDER_CERTGEN_SERVICE_DEFAULT);
+  $certgen_uri = url($certgen_uri, array(
+      'query' => array(
+        'webid' => $account_webid_uri,
+        'name' => format_username($account) . ' (' . variable_get('site_name') . ')',
+        'email' => $account->mail,
+      ),
+  ));
+
+  $output = '<p>' . t('You can generate a browser certificate for your Drupal WebID using a third party certificate generator. You will then be able to use this certificate to authenticate on services which support the WebID protocol:', array('@certgen' => $certgen_uri)) . '</p>';
+  $output .= '<ol>';
+  $output .= '<li>' . t('<a target="_blank" href="@certgen">Generate browser certificate</a> for your Drupal WebID profile.', array('@certgen' => $certgen_uri)) . '</li>';
+  $output .= '<li>' . t('Once you have generated a certificate, don\'t forget to <a href="@user-edit">edit your user account</a> in order to add the public key of your new certificate, otherwise you will not be able to authenticate on other services using the WebID protocol. You have to do this for each certificate associated with your Drupal user account.', array('@certgen' => $certgen_uri, '@user-edit' => url('user/' . $account->uid . '/edit'))) . '</li>';
+  $output .= '</ol>';
+
+  $output .= '<p>' . t('You have to follow the two steps above everytime you generate a certificate (for example if you want to have a certificate for each browser.)') . '</li>';
+
+
+  return $output;
+}
+
+/**
+ * Implements MODULE_preprocess_HOOK().
+ */
+function webidprovider_preprocess_user_profile(&$variables) {
+  $account = $variables['elements']['#account'];
+  $uri = entity_uri('user', $account);
+
+  // Add user name to the WebID URI.
+  $tag = array(
+    '#tag' => 'meta',
+    '#attributes' => array(
+      'about' => url($uri['path'], array_merge($uri['options'], array('fragment' => 'me'))),
+      'property' => array('foaf:nick', 'foaf:name'),
+      'content' => format_username($account),
+    ),
+  );
+  drupal_add_html_head($tag, 'webidprovider_');
+
+  // Add email address in RDFa.
+  if (variable_get('webidprovider_publish_email', FALSE)) {
+    $tag = array(
+      '#tag' => 'link',
+      '#attributes' => array(
+        'about' => url($uri['path'], array_merge($uri['options'], array('fragment' => 'me'))),
+        'rel' => array('foaf:mbox'),
+        'href' => 'mailto:' . $account->mail,
+      ),
+    );
+    drupal_add_html_head($tag, 'webidprovider_email');
+  }
+}

@@ -1,0 +1,18 @@
+
+#edit-webid-identifier {
+  background-position: right 50%;
+  padding-left: 0;
+  padding-right: 20px;
+}
+#user-login .webid-links {
+  padding-right: 0;
+}
+html.js #user-login-form li.webid-link,
+html.js #user-login li.webid-link {
+  margin-right: 0;
+}
+#user-login-form li.webid-link a,
+#user-login li.webid-link a {
+  background-position: right top;
+  padding: 0 1.5em 0 0;
+}

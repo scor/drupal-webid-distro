@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * @copyright
+ *     WebIDauth - WebID authentication module for Drupal
+ *     Copyright (C) 2012  mEducator Best Practice Network
+ * @author
+ *      Lazaros Ioannidis
+ *      Charalampos Bratsas
+ *      Dimitris Spachos
+ */
+
+/**
+ * @file
+ * Install, update and uninstall functions for the webidauth module.
+ */
+
+/**
+ * webidauth_schema()
+ * Implements hook_schema()
+ */
+function webidauth_schema() {
+
+   $schema['webidauth'] = array(
+      'description' => 'Stores the asociations between users and WebIDs.' ,
+      'fields' => array(
+      	'wid' => array(
+            'type' => 'serial',
+            'not null' => TRUE,
+            'description' => 'Primary key: Unique identifier for a WebID asociation',
+      	  ),
+         'uri' => array(
+            'type' => 'varchar',
+            'length' => 5000,
+            'not null' => TRUE,
+            'description' => 'A universal resource identifier pointing to user\'s
+                              foaf profile',
+           ),
+
+         'uid' => array(
+            'type' => 'int',
+            'not null' => TRUE,
+            'description' => 'The uid of the user asociated with the WebID',
+           ),
+
+      ),
+      'primary key' => array('wid'),
+
+
+
+
+   );
+
+  return $schema;
+}
+
+
+/**
+* Implements hook_install().
+*/
+function webidauth_install() {
+  drupal_set_message(st("Webidauth settings are available under !link",
+    array( '!link' => l('Configuration > People > WebID settings ',  'admin/config/people/webidauth' ) )
+  ));
+}
+
+
+/**
+ * Implements hook_requirements().
+ */
+function webidauth_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+
+    if (!class_exists('Authentication_FoafSSLDelegate')) {
+      $requirements['webid_libAuthentication'] = array(
+        'value' => t('Not installed'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('WebIDauth requires the use of the <a href="@libauth">libAuthentication library</a>.', array('@libauth' => 'https://github.com/WebIDauth/libAuthentication')),
+        'title'=>t('libAuthentication library')
+      );
+    }
+    if (!class_exists('ARC2')) {
+      $requirements['webid_ARC2'] = array(
+        'value' => t('Not installed'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('WebIDauth requires the use of the <a href="@arc">ARC library</a>.', array('@arc' => 'https://github.com/semsol/arc2/')),
+        'title'=>t('ARC library')
+      );
+    }
+    if (!class_exists('Graphite')) {
+      $requirements['webid_Graphite'] = array(
+        'value' => t('Not installed'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('WebIDauth requires the use of the <a href="@graphite">Graphite RDF library</a>.', array('@graphite' => 'http://graphite.ecs.soton.ac.uk/')),
+        'title'=>t('Graphite RDF library')
+      );
+    }
+
+  }
+
+  return $requirements;
+}
+
+
+
+
+
+function webidauth_update_7100(){
+   db_drop_field('webidauth','modulus');
+   return 'Removed redundant modulus field';
+
+}
