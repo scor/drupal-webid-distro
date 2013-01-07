@@ -22,9 +22,10 @@ so this distribution provides a good testbed for evaluating WebID in Drupal.
 While the main use case WebID has seen so far is in public social networks such as MyProfile, we demonstrate how it is possible to leverage the WebID protocol in enterprise scenarios where several applications hosted on different platforms are at play. We showcase an imaginary set of health related applications (*.happs.gov) whose members are able to seamlessly register and sign on using a dedicated WebID provider part of the happs.gov network.
 
 This infrastructure is available for demo purposes and can be set up using VirtualBox. The Virtual Machines have been uploaded online and can be downloaded from the following locations:
-* [drupal_webid_distro_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/drupal_webid_distro_vm.ova.tar.gz)
-* [OntoWiki_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/OntoWiki_vm.ova.tar.gz)
-* [webIDauth_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/webIDauth_vm.ova.tar.gz)
+
+* [drupal_webid_distro_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/drupal_webid_distro_vm.ova.tar.gz): this distribution of Drupal+WebID pre-installed on Ubuntu, used for both the WebID provider `webid.happs.gov` and the example client application `drupal.happs.gov`
+* [OntoWiki_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/OntoWiki_vm.ova.tar.gz): pre-installed instance of  [OntoWiki](https://github.com/AKSW/OntoWiki) used as client application
+* [webIDauth_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/webIDauth_vm.ova.tar.gz): pre-installed instance of [WebIDauth](https://github.com/WebIDauth/WebIDauth) used as WebID verifier service `auth.happs.gov`
 
 These virtual machines will most likely need to be tweaked to match the IPs assigned to them on your network in order to reproduce was is shown in the screencast. Unix accounts use the username "demo" and the password "demo" unless otherwise noted. MySQL root password is "root". Drupal admin password is "admin". These VMs should not be deployed on production server as they are not secure, they are for educational purpose only.
 
@@ -36,4 +37,4 @@ Download the VMs above and deploy them in [VirtualBox](https://www.virtualbox.or
 192.168.1.123 drupal.happs.gov
 192.168.1.135 ontowiki.happs.gov
 ````
-In the example above I used the same VM for both the webid and the drupal subdomains, but I had a vhost for each. Feel free to have them separate machines.
+In the example above, the same VM was used for both the `webid` and the `drupal` subdomains, with a vhost for each. Feel free to have them separate machines if you prefer.
