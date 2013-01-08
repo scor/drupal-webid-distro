@@ -17,6 +17,10 @@ You can of course download each of these separately to your existing Drupal site
 The versions of the libraries packaged here are known to work with Drupal,
 so this distribution provides a good testbed for evaluating WebID in Drupal.
 
+##Screencast
+Watch this <a href="https://vimeo.com/56960183">screencast</a> to learn about WebID and see it in action. The screencast shows various ways of using WebID on Drupal and other platforms.
+
+
 ## Advanced WebID use case example
 
 While the main use case WebID has seen so far is in public social networks such as MyProfile, we demonstrate how it is possible to leverage the WebID protocol in enterprise scenarios where several applications hosted on different platforms are at play. We showcase an imaginary set of health related applications (*.happs.gov) whose members are able to seamlessly register and sign on using a dedicated WebID provider part of the happs.gov network.
