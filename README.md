@@ -18,7 +18,7 @@ The versions of the libraries packaged here are known to work with Drupal,
 so this distribution provides a good testbed for evaluating WebID in Drupal.
 
 ##Screencast
-Watch this <a href="https://vimeo.com/56960183">screencast</a> to learn about WebID and see it in action. The screencast shows various ways of using WebID on Drupal and other platforms.
+Watch this introductory <a href="https://vimeo.com/56960183">screencast</a> to learn about WebID and see it in action. The screencast shows various ways of using WebID on Drupal and other platforms.
 
 
 ## Advanced WebID use case example
