@@ -23,9 +23,9 @@ While the main use case WebID has seen so far is in public social networks such 
 
 This infrastructure is available for demo purposes and can be set up using VirtualBox. The Virtual Machines have been uploaded online and can be downloaded from the following locations:
 
-* [drupal_webid_distro_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/drupal_webid_distro_vm.ova.tar.gz): this distribution of Drupal+WebID pre-installed on Ubuntu, used for both the WebID provider `webid.happs.gov` and the example client application `drupal.happs.gov`
-* [OntoWiki_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/OntoWiki_vm.ova.tar.gz): pre-installed instance of  [OntoWiki](https://github.com/AKSW/OntoWiki) used as client application
-* [webIDauth_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/webIDauth_vm.ova.tar.gz): pre-installed instance of [WebIDauth](https://github.com/WebIDauth/WebIDauth) used as WebID verifier service `auth.happs.gov`
+* [drupal_webid_distro_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/drupal_webid_distro_vm.ova.tar.gz): this distribution of Drupal+WebID pre-configured on Ubuntu LAMP, used for both the WebID provider `webid.happs.gov` and the example client application `drupal.happs.gov`
+* [OntoWiki_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/OntoWiki_vm.ova.tar.gz): pre-configured instance of  [OntoWiki](https://github.com/AKSW/OntoWiki) used as client application
+* [webIDauth_vm.ova.tar.gz](http://files.openspring.net/2013/h2challenge/webIDauth_vm.ova.tar.gz): pre-configured instance of [WebIDauth](https://github.com/WebIDauth/WebIDauth) used as WebID verifier service `auth.happs.gov`
 
 These virtual machines will most likely need to be tweaked to match the IPs assigned to them on your network in order to reproduce was is shown in the screencast. Unix accounts use the username "demo" and the password "demo" unless otherwise noted. MySQL root password is "root". Drupal admin password is "admin". These VMs should not be deployed on production server as they are not secure, they are for educational purpose only.
 
